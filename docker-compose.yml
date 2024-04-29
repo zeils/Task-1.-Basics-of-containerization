@@ -1,0 +1,23 @@
+version: "3.9"
+services:
+  postgres:
+    image: postgres:14.8-alpine3.18
+    environment:
+      POSTGRES_DB: "db"
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "admin"
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    volumes:
+      - ../2. Init Database:/docker-entrypoint-initdb.d
+      - db:/var/lib/postgresql/data
+    ports:
+      - "4321:5432"
+  front_sum:
+    build: ./front_sum
+    ports:
+      - "9000:9000"
+    environment:
+      - PORT=9000
+
+volumes:
+  db:
